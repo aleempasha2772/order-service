@@ -1,6 +1,7 @@
 package com.example.orderservice.service;
 
 import com.example.orderservice.entity.Order;
+import com.example.orderservice.external.client.ProductService;
 import com.example.orderservice.model.OrderRequest;
 import com.example.orderservice.repository.OrderRepository;
 import lombok.extern.log4j.Log4j2;
@@ -14,12 +15,16 @@ import java.time.Instant;
 @Log4j2
 public class OrderServiceImpl implements OrderService {
 
-
-
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private ProductService productService;
+
     @Override
     public long placeOrder(OrderRequest orderRequest) {
+
+        productService.reduceQuantity(orderRequest.getProductId(),orderRequest.getQuantity());
 
         log.info("Creating Order with Status CREATED");
         Order order = Order.builder()
@@ -31,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderRepository.save(order);
+        log.info("Cretaed Order with");
         return order.getId();
-
     }
 }
