@@ -160,6 +160,8 @@ public class OrderServiceImpl implements OrderService {
                 .builder()
                 .productName(productResponse1.getProductName())
                 .productId(productResponse1.getProductId())
+                .quantity(productResponse1.getQuantity())
+                .price(productResponse1.getPrice())
                 .build();
 
         OrderResponse.PaymentDetails paymentDetails
@@ -183,5 +185,11 @@ public class OrderServiceImpl implements OrderService {
 
         return orderResponse;
     }
+
+	@Override
+	public OrderResponse getAllOrders() {
+		
+		return (OrderResponse) orderRepository.findAll();
+	}
 
 }

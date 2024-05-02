@@ -5,6 +5,9 @@ import com.example.orderservice.model.OrderRequest;
 import com.example.orderservice.model.OrderResponse;
 import com.example.orderservice.service.OrderService;
 import lombok.extern.log4j.Log4j2;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +37,11 @@ public class OrderController {
 
         return new ResponseEntity<>(orderResponse,
                 HttpStatus.OK);
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>> getAllOrders(){
+        List<OrderResponse> orders = (List<OrderResponse>) orderService.getAllOrders();
+        return ResponseEntity.ok().body(orders);
     }
 }
